@@ -3,17 +3,7 @@ package com.arctouch.busroutes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-
-import com.arctouch.busroutes.api.BusRoutesService;
-import com.arctouch.busroutes.model.BusRoute;
-import com.arctouch.busroutes.model.Stop;
-
-import java.util.List;
-
-import retrofit.Callback;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import android.util.Log;
 
 /**
  * An activity representing a list of Routes. This activity
@@ -22,11 +12,11 @@ import retrofit.client.Response;
  * lead to a {@link RouteDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
- * <p>
+ * <p/>
  * The activity makes heavy use of fragments. The list of items is a
  * {@link RouteListFragment} and the item details
  * (if present) is a {@link RouteDetailFragment}.
- * <p>
+ * <p/>
  * This activity also implements the required
  * {@link RouteListFragment.Callbacks} interface
  * to listen for item selections.
@@ -44,35 +34,6 @@ public class RouteListActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_list);
-
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("https://dashboard.appglu.com")
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        BusRoutesService service = restAdapter.create(BusRoutesService.class);
-        Stop stop = new Stop();
-        stop.name = "%Lauro%";
-        service.findRoutesByStopName(stop, new Callback<List<BusRoute>>() {
-
-            @Override
-            public void success(List<BusRoute> routes, Response response) {
-                /*if (repositories.isEmpty()) {
-                    displaySadMessage();
-                }
-
-                for (Contributor contributor : contributors) {
-                    log(contributor.login + " - " + contributor.contributions);
-                }
-
-                mAdapter.setRepositories(repositories);*/
-            }
-
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                //displayErrorMessage();
-            }
-        });
 
 
         if (findViewById(R.id.route_detail_container) != null) {

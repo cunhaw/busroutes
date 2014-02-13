@@ -3,11 +3,22 @@ package com.arctouch.busroutes;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.arctouch.busroutes.api.BusRoutesService;
+import com.arctouch.busroutes.api.FindRoutesByStopNameParams;
+import com.arctouch.busroutes.api.FindRoutesByStopNameResponse;
 import com.arctouch.busroutes.dummy.DummyContent;
+import com.arctouch.busroutes.model.BusRoute;
+
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * A list fragment representing a list of Routes. This fragment
@@ -69,6 +80,33 @@ public class RouteListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        BusRoutesService.api().findRoutesByStopName(
+                new FindRoutesByStopNameParams("%Lauro%"),
+                new Callback<FindRoutesByStopNameResponse>() {
+
+                    @Override
+                    public void success(FindRoutesByStopNameResponse routesResponse, Response response) {
+
+                        setListAdapter(new ArrayAdapter<BusRoute>(
+                                getActivity(),
+                                android.R.layout.simple_list_item_activated_1,
+                                android.R.id.text1,
+                                routesResponse.routes)
+                        );
+
+                        // TODO: just update the adapter instead of creating a new one?
+                        //mAdapter.setRepositories(repositories);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError retrofitError) {
+                        Log.d("bus", "error finding bus routes by name");
+                        // TODO: Toast error
+                        //displayErrorMessage();
+                    }
+                }
+        );
 
         // TODO: replace with a real list adapter.
         setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
