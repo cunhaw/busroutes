@@ -1,15 +1,19 @@
 ﻿BusRoutes
 =========
 
-Simple Android application which searches some routes and timetables of Florianópolis's public transportation.
-It uses an external Http web service (from AppGlu) to retrieve this information.
+- Simple Android application which searches some routes and timetables of Florianópolis's public transportation.
+
+- It uses an external Http web service (from AppGlu) to retrieve this information.
 
 Instructions
 ============
 
-Project was created using the new Android Studio (http://developer.android.com/sdk/installing/studio.html).
+- Project was created using the new Android Studio (http://developer.android.com/sdk/installing/studio.html).
 It uses Gradle as the build system, and get external dependencies from Maven central.
-Eclipse+ADT support is on the roadmap (https://github.com/cunhaw/busroutes/issues/1).
+
+- Eclipse+ADT support is on the roadmap (https://github.com/cunhaw/busroutes/issues/1).
+
+- It needs an Android API 19 compatible device. Targe a wider range of devices is on the roadmap (https://github.com/cunhaw/busroutes/issues/6)
 
 Dependencies
 ============
