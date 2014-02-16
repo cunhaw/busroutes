@@ -20,6 +20,5 @@ Dependencies
 
 - Retrofit is a type-safe REST client for Android and Java. Check http://square.github.io/retrofit/.
 It is used to load the bus routes data from the external Web service. This library abstracts the http+thread+callback code.
-There is a related issue (https://github.com/cunhaw/busroutes/issues/2) to check if this loading should be better decoupled using a Service or ContentProvider.
-
-
+Under the hood, Retrofit depends on GSON, used to convert a JSON string to an equivalent Java object.
+There is an issue (https://github.com/cunhaw/busroutes/issues/2) to check if this loading should be better decoupled from the Activity using a Service or ContentProvider.
