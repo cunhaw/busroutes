@@ -1,4 +1,4 @@
-package com.arctouch.busroutes;
+package com.arctouch.busroutes.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -84,6 +84,8 @@ public class RouteListFragment extends ListFragment {
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 DummyContent.ITEMS));*/
+
+        requestBusRoutes("%Lauro%");
     }
 
     @Override
@@ -95,8 +97,6 @@ public class RouteListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
-
-        requestBusRoutes("%Lauro%");
     }
 
     @Override

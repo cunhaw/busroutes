@@ -1,4 +1,4 @@
-package com.arctouch.busroutes;
+package com.arctouch.busroutes.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.arctouch.busroutes.R;
 import com.arctouch.busroutes.api.BusRoutesService;
 import com.arctouch.busroutes.api.FindDeparturesByRouteIdParams;
 import com.arctouch.busroutes.api.FindDeparturesByRouteIdResponse;
@@ -57,8 +58,8 @@ public class RouteDetailFragment extends Fragment {
 
         // if (getArguments().containsKey(ARG_ITEM_ID)) {
         // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
+        // arguments. In a real-world scenario, use a Loader
+        // to load content from a content provider.
         // mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         // }
     }

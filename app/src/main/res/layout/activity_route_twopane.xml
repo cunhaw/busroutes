@@ -8,7 +8,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="com.arctouch.busroutes.RouteListActivity">
+    tools:context="com.arctouch.busroutes.activities.RouteListActivity">
 
     <!--
     This layout is a two-pane layout for the Routes
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/route_list"
-        android:name="com.arctouch.busroutes.RouteListFragment"
+        android:name="com.arctouch.busroutes.activities.RouteListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"

@@ -1,9 +1,10 @@
-package com.arctouch.busroutes;
+package com.arctouch.busroutes.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
+
+import com.arctouch.busroutes.R;
 
 /**
  * An activity representing a list of Routes. This activity
