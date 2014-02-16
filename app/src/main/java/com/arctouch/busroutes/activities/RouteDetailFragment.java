@@ -40,6 +40,11 @@ public class RouteDetailFragment extends Fragment {
     // private List<Departure> mDepartures;
 
     /**
+     * The activity parameter (Route id).
+     */
+    String mRouteIdParam;
+
+    /**
      * The fragment UI object references.
      */
     private View mRootView;
@@ -56,12 +61,11 @@ public class RouteDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // if (getArguments().containsKey(ARG_ITEM_ID)) {
-        // Load the dummy content specified by the fragment
-        // arguments. In a real-world scenario, use a Loader
-        // to load content from a content provider.
-        // mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-        // }
+        if (getArguments().containsKey(ARG_ITEM_ID)) {
+            // Load the dummy content specified by the fragment arguments.
+            // TODO: Investigate the Loader approach to load content from a content provider
+            mRouteIdParam = getArguments().getString(ARG_ITEM_ID);
+        }
     }
 
     @Override
@@ -75,8 +79,10 @@ public class RouteDetailFragment extends Fragment {
         mTextView.setText("Loading bus route information...");
 
         // Request the bus route information to the external service.
-        int routeId = Integer.parseInt("22");
-        requestBusRouteDetails(routeId);
+        if (mRouteIdParam != null) {
+            int routeId = Integer.parseInt(mRouteIdParam);
+            requestBusRouteDetails(routeId);
+        }
 
         return mRootView;
     }
