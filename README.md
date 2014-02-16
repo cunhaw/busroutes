@@ -13,7 +13,7 @@ It uses Gradle as the build system, and get external dependencies from Maven cen
 
 - Eclipse+ADT support is on the roadmap (https://github.com/cunhaw/busroutes/issues/1).
 
-- It needs an Android API 19 compatible device. Targe a wider range of devices is on the roadmap (https://github.com/cunhaw/busroutes/issues/6)
+- It needs an Android API 19 compatible device to run. Target a wider range of devices is on the roadmap (https://github.com/cunhaw/busroutes/issues/6)
 
 Dependencies
 ============

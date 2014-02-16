@@ -6,16 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.arctouch.busroutes.api.BusRoutesService;
 import com.arctouch.busroutes.api.FindDeparturesByRouteIdParams;
 import com.arctouch.busroutes.api.FindDeparturesByRouteIdResponse;
-import com.arctouch.busroutes.api.FindRoutesByStopNameParams;
-import com.arctouch.busroutes.api.FindRoutesByStopNameResponse;
-import com.arctouch.busroutes.dummy.DummyContent;
-import com.arctouch.busroutes.model.BusRoute;
 import com.arctouch.busroutes.model.Departure;
 
 import java.util.List;
@@ -38,15 +33,16 @@ public class RouteDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The Bus route information this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    // private BusRoute mBusRoute;
+    // private List<Departure> mDepartures;
 
     /**
-     * The dummy content this fragment is presenting.
+     * The fragment UI object references.
      */
-    private BusRoute mBusRoute;
-    private List<Departure> mDepartures;
+    private View mRootView;
+    private TextView mTextView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,19 +55,39 @@ public class RouteDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
+        // if (getArguments().containsKey(ARG_ITEM_ID)) {
+        // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+        // mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+        // }
+    }
 
-            int routeId = Integer.parseInt("22");
-            BusRoutesService.api().findDeparturesByRouteId(
-                    new FindDeparturesByRouteIdParams(routeId),
-                    new Callback<FindDeparturesByRouteIdResponse>() {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-                        @Override
-                        public void success(FindDeparturesByRouteIdResponse departuresResponse, Response response) {
+        mRootView = inflater.inflate(R.layout.fragment_route_detail, container, false);
+        mTextView = ((TextView) mRootView.findViewById(R.id.route_detail));
+
+        // Set the loading message in the fragment TextView.
+        mTextView.setText("Loading bus route information...");
+
+        // Request the bus route information to the external service.
+        int routeId = Integer.parseInt("22");
+        requestBusRouteDetails(routeId);
+
+        return mRootView;
+    }
+
+    public void requestBusRouteDetails(int routeId) {
+
+        BusRoutesService.api().findDeparturesByRouteId(
+                new FindDeparturesByRouteIdParams(routeId),
+                new Callback<FindDeparturesByRouteIdResponse>() {
+
+                    @Override
+                    public void success(FindDeparturesByRouteIdResponse departuresResponse, Response response) {
 
                             /*setListAdapter(new ArrayAdapter<BusRoute>(
                                     getActivity(),
@@ -79,33 +95,38 @@ public class RouteDetailFragment extends Fragment {
                                     android.R.id.text1,
                                     routesResponse.routes)
                             );*/
+                        //mAdapter.setRepositories(repositories);
 
-                            // TODO: just update the adapter instead of creating a new one?
-                            //mAdapter.setRepositories(repositories);
-                        }
-
-                        @Override
-                        public void failure(RetrofitError retrofitError) {
-                            Log.d("bus", "error finding bus routes by name");
-                            // TODO: Toast error
-                            //displayErrorMessage();
-                        }
+                        renderDepartures(departuresResponse.departures);
                     }
 
-            );
-        }
+                    @Override
+                    public void failure(RetrofitError retrofitError) {
+                        Log.d("bus", "error finding bus routes by name");
+                        // TODO: Toast error
+                        //displayErrorMessage();
+                    }
+                }
+
+        );
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_route_detail, container, false);
+    public void renderDepartures(List<Departure> departures) {
+        mTextView.setText("Departures for this route:\n");
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.route_detail)).setText(mItem.content);
+        // Iterate trough the departures adding them to the TextView
+        String currentCalendar = "";
+
+        for (Departure departure : departures) {
+
+            // Split departures for different calendars (WEEKDAY, SATURDAY, SUNDAY)
+            if (!currentCalendar.equals(departure.calendar)) {
+                currentCalendar = departure.calendar;
+                mTextView.append("\n");
+                mTextView.append(departure.calendar.concat("\n"));
+            }
+
+            mTextView.append(departure.time.concat("\n"));
         }
-
-        return rootView;
     }
 }
