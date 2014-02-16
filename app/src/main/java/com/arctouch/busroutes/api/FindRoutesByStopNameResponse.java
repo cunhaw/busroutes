@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Wagner on 13/02/14.
  */
 
-/* Sample JSON response mapped for this class:
+/* Sample JSON response mapped for this response:
   {
    "rows":
     [
@@ -23,6 +23,5 @@ import java.util.List;
 public class FindRoutesByStopNameResponse {
     @SerializedName("rows")
     public List<BusRoute> routes;
-    public int rowsAffected;
 }
 
