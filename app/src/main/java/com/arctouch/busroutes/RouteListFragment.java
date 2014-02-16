@@ -11,10 +11,7 @@ import android.widget.ListView;
 import com.arctouch.busroutes.api.BusRoutesService;
 import com.arctouch.busroutes.api.FindRoutesByStopNameParams;
 import com.arctouch.busroutes.api.FindRoutesByStopNameResponse;
-import com.arctouch.busroutes.dummy.DummyContent;
 import com.arctouch.busroutes.model.BusRoute;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -109,11 +106,11 @@ public class RouteListFragment extends ListFragment {
         );
 
         // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
+        /*setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
                 getActivity(),
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
-                DummyContent.ITEMS));
+                DummyContent.ITEMS));*/
     }
 
     @Override
@@ -153,7 +150,7 @@ public class RouteListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected("0"); //DummyContent.ITEMS.get(position).id);
     }
 
     @Override
