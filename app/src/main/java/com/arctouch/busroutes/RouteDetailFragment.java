@@ -80,7 +80,7 @@ public class RouteDetailFragment extends Fragment {
         return mRootView;
     }
 
-    public void requestBusRouteDetails(int routeId) {
+    private void requestBusRouteDetails(int routeId) {
 
         BusRoutesService.api().findDeparturesByRouteId(
                 new FindDeparturesByRouteIdParams(routeId),

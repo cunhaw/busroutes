@@ -22,7 +22,7 @@ import retrofit.client.Response;
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
  * currently being viewed in a {@link RouteDetailFragment}.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
@@ -78,33 +78,6 @@ public class RouteListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        BusRoutesService.api().findRoutesByStopName(
-                new FindRoutesByStopNameParams("%Lauro%"),
-                new Callback<FindRoutesByStopNameResponse>() {
-
-                    @Override
-                    public void success(FindRoutesByStopNameResponse routesResponse, Response response) {
-
-                        setListAdapter(new ArrayAdapter<BusRoute>(
-                                getActivity(),
-                                android.R.layout.simple_list_item_activated_1,
-                                android.R.id.text1,
-                                routesResponse.routes)
-                        );
-
-                        // TODO: just update the adapter instead of creating a new one?
-                        //mAdapter.setRepositories(repositories);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError retrofitError) {
-                        Log.d("bus", "error finding bus routes by name");
-                        // TODO: Toast error
-                        //displayErrorMessage();
-                    }
-                }
-        );
-
         // TODO: replace with a real list adapter.
         /*setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
                 getActivity(),
@@ -122,6 +95,8 @@ public class RouteListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+        requestBusRoutes("%Lauro%");
     }
 
     @Override
@@ -182,5 +157,34 @@ public class RouteListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    private void requestBusRoutes(String streetNameLike) {
+        BusRoutesService.api().findRoutesByStopName(
+                new FindRoutesByStopNameParams(streetNameLike),
+                new Callback<FindRoutesByStopNameResponse>() {
+
+                    @Override
+                    public void success(FindRoutesByStopNameResponse routesResponse, Response response) {
+
+                        setListAdapter(new ArrayAdapter<BusRoute>(
+                                getActivity(),
+                                android.R.layout.simple_list_item_activated_1,
+                                android.R.id.text1,
+                                routesResponse.routes)
+                        );
+
+                        // TODO: just update the adapter instead of creating a new one?
+                        //mAdapter.setRepositories(repositories);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError retrofitError) {
+                        Log.d("bus", "error finding bus routes by name");
+                        // TODO: Toast error
+                        //displayErrorMessage();
+                    }
+                }
+        );
     }
 }
