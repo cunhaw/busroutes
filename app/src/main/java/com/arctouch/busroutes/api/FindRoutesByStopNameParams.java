@@ -1,7 +1,8 @@
 package com.arctouch.busroutes.api;
 
 /**
- * Created by Wagner on 13/02/14.
+ * Mapping of the findRoutesByStopName request parameters
+ * The remote service expects the JSON object to be enveloped in a "params" object
  */
 public class FindRoutesByStopNameParams {
 

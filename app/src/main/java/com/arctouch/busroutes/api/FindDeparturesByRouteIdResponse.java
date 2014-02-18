@@ -6,7 +6,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Created by Wagner on 13/02/14.
+ * Mapping of the findDeparturesByRouteId request response
+ * The rowsAffected response is not being used
  */
 
 /* Sample JSON response mapped for this response:

@@ -6,6 +6,7 @@ import retrofit.RestAdapter;
 /**
  * This class instantiates and holds a single instance of {@link BusRoutesServiceApi} for the App.
  * Depends on the Retrofit library / RestAdapter to create the Api implementation.
+ * The concrete implementation of the Api is built by the Retrofit RestAdapter.
  */
 
 public class BusRoutesService {
