@@ -14,13 +14,13 @@
             android:layout_height="match_parent"
             android:id="@+id/searchEdit"
             android:layout_gravity="center_horizontal"
+            android:singleLine="true"
             android:layout_weight="1" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
-            android:id="@+id/searchButton"
-            />
+            android:text="@string/search_button_text"
+            android:id="@+id/searchButton" />
 
         </LinearLayout>
 
@@ -30,10 +30,12 @@
     android:layout_weight="1"
     android:drawSelectorOnTop="false"/>
 
-    <TextView android:id="@android:id/empty"
+    <ViewStub
+        android:id="@android:id/empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="No results found"/>
+        android:layout_gravity="center"
+        android:layout="@layout/empty_list" />
 
 </LinearLayout>
 

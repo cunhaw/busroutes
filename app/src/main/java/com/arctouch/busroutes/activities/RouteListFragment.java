@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.arctouch.busroutes.R;
 
 import com.arctouch.busroutes.api.BusRoutesService;
@@ -17,12 +19,15 @@ import com.arctouch.busroutes.api.FindRoutesByStopNameParams;
 import com.arctouch.busroutes.api.FindRoutesByStopNameResponse;
 import com.arctouch.busroutes.model.BusRoute;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * A list fragment representing a list of Routes. This fragment
+ * A list fragment representing a list of Bus routes. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
  * currently being viewed in a {@link RouteDetailFragment}.
@@ -47,7 +52,6 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
     /**
      * The fragment UI object references.
      */
-    private View mRootView;
     private Button mSearchButton;
     private EditText mSearchEdit;
 
@@ -55,6 +59,12 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
+
+    /**
+     * The current Bus Routes result and it's list adapter
+     */
+    private ArrayList<BusRoute> mBusRoutes;
+    private ArrayAdapter mAdapter = null;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -65,7 +75,7 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        public void onItemSelected(String busRouteId);
     }
 
     /**
@@ -89,13 +99,10 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        /*setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));*/
-
+        mBusRoutes = new ArrayList<BusRoute>();
+        mAdapter = new ArrayAdapter<BusRoute>(getActivity(),
+           android.R.layout.simple_list_item_activated_1, android.R.id.text1, mBusRoutes);
+        setListAdapter(mAdapter);
     }
 
     @Override
@@ -106,7 +113,8 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
         mSearchButton = ((Button) view.findViewById(R.id.searchButton));
         mSearchEdit = ((EditText) view.findViewById(R.id.searchEdit));
 
-        mSearchButton.setOnClickListener(this);
+        if (mSearchButton != null)
+            mSearchButton.setOnClickListener(this);
 
         return view;
     }
@@ -144,7 +152,14 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
 
     // Implement the OnClickListener callback
     public void onClick(View v) {
-        requestBusRoutes(String.format("%%%s%%", mSearchEdit.getText()));
+
+        // Clear previous results
+        mBusRoutes.clear();
+        mAdapter.notifyDataSetChanged();
+
+        // Request bus routes from the service api
+        if (mSearchEdit != null)
+            requestBusRoutes(String.format("%%%s%%", mSearchEdit.getText()));
     }
 
     @Override
@@ -153,7 +168,7 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected("22"); //DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(Integer.toString(mBusRoutes.get(position).id));
     }
 
     @Override
@@ -195,22 +210,21 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
                     @Override
                     public void success(FindRoutesByStopNameResponse routesResponse, Response response) {
 
-                        setListAdapter(new ArrayAdapter<BusRoute>(
-                                getActivity(),
-                                android.R.layout.simple_list_item_activated_1,
-                                android.R.id.text1,
-                                routesResponse.routes)
-                        );
+                        Collections.copy(mBusRoutes, routesResponse.routes);
+                        mAdapter.notifyDataSetChanged();
 
-                        // TODO: just update the adapter instead of creating a new one?
-                        //mAdapter.setRepositories(repositories);
+                        if (routesResponse.routes.isEmpty()){
+                            String noResultsFound = getResources().getString(R.string.no_results_for_street);
+                            Toast toast = Toast.makeText(getActivity(), noResultsFound, Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
 
                     @Override
                     public void failure(RetrofitError retrofitError) {
-                        //Log.d("bus", "error finding bus routes by name");
-                        // TODO: Toast error
-                        //displayErrorMessage();
+                        String errorRetrievingBusRoutes = getResources().getString(R.string.error_retrieving_bus_routes_message);
+                        Toast toast = Toast.makeText(getActivity(), errorRetrievingBusRoutes, Toast.LENGTH_SHORT);
+                        toast.show();
                     }
                 }
         );

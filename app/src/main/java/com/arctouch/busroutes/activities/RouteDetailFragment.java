@@ -2,11 +2,11 @@ package com.arctouch.busroutes.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arctouch.busroutes.R;
 import com.arctouch.busroutes.api.BusRoutesService;
@@ -75,7 +75,8 @@ public class RouteDetailFragment extends Fragment {
         mTextView = ((TextView) mRootView.findViewById(R.id.route_detail));
 
         // Set the loading message in the fragment TextView.
-        mTextView.setText("Loading bus route information...");
+        String loadingMessage = getResources().getString(R.string.loading_bus_route_message);
+        mTextView.setText(loadingMessage);
 
         // Request the bus route information to the external service.
         if (mRouteIdParam != null) {
@@ -94,23 +95,14 @@ public class RouteDetailFragment extends Fragment {
 
                     @Override
                     public void success(FindDeparturesByRouteIdResponse departuresResponse, Response response) {
-
-                            /*setListAdapter(new ArrayAdapter<BusRoute>(
-                                    getActivity(),
-                                    android.R.layout.simple_list_item_activated_1,
-                                    android.R.id.text1,
-                                    routesResponse.routes)
-                            );*/
-                        //mAdapter.setRepositories(repositories);
-
                         renderDepartures(departuresResponse.departures);
                     }
 
                     @Override
                     public void failure(RetrofitError retrofitError) {
-                        Log.d("bus", "error finding bus routes by name");
-                        // TODO: Toast error
-                        //displayErrorMessage();
+                        String errorRetrievingBusRoutes = getResources().getString(R.string.error_retrieving_bus_routes_message);
+                        Toast toast = Toast.makeText(getActivity(), errorRetrievingBusRoutes, Toast.LENGTH_SHORT);
+                        toast.show();
                     }
                 }
 
@@ -118,7 +110,12 @@ public class RouteDetailFragment extends Fragment {
     }
 
     public void renderDepartures(List<Departure> departures) {
-        mTextView.setText("Departures for this route:\n");
+
+        // TODO: Move this to an ListView + CustomAdapter instead of a TextView
+
+        String routesDetailHeader = getResources().getString(R.string.routes_detail_header);
+        mTextView.setText(routesDetailHeader);
+        mTextView.append("\n");
 
         // Iterate trough the departures adding them to the TextView
         String currentCalendar = "";

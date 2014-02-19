@@ -13,6 +13,6 @@ public class BusRoute {
     public int agencyId;
 
     public String toString() {
-        return new StringBuilder().append(id).append(":").append(longName).toString();
+        return longName;
     }
 }

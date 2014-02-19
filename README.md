@@ -5,7 +5,8 @@
 
 - It uses an external Http web service (from AppGlu) to retrieve this information.
 
-- Project is based on the Master/Detail template from the Android SDK;
+- Project is based on the Master/Detail template from the Android SDK, which implements single pane and two-pane according to the screen size.
+UI from the original template was modified to add the search function.
 
 Instructions
 ============
