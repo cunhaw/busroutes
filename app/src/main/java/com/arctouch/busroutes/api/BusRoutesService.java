@@ -14,6 +14,7 @@ public class BusRoutesService {
 
     public BusRoutesService() {
 
+        // TODO: Move headers to configuration file
         RequestInterceptor requestInterceptor = new RequestInterceptor() {
             @Override
             public void intercept(RequestFacade request) {
@@ -22,6 +23,7 @@ public class BusRoutesService {
             }
         };
 
+        // TODO: Move server address to configuration file
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("https://dashboard.appglu.com")
                 .setRequestInterceptor(requestInterceptor)

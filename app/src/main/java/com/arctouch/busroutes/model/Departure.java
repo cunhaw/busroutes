@@ -1,7 +1,9 @@
 package com.arctouch.busroutes.model;
 
 /**
- * Created by Wagner on 13/02/14.
+ * Departure model class
+ * Filled by the ServiceApi and consumed by the Activities
+ * Properties follow the service JSON response
  */
 public class Departure {
     public int id;

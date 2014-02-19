@@ -1,7 +1,9 @@
 package com.arctouch.busroutes.model;
 
 /**
- * Created by Wagner on 10/02/14.
+ * BusRoute model class
+ * Filled by the ServiceApi and consumed by the Activities
+ * Properties follow the service JSON response
  */
 public class BusRoute {
     public int id;

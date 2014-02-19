@@ -3,10 +3,14 @@ package com.arctouch.busroutes.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import com.arctouch.busroutes.R;
 
 import com.arctouch.busroutes.api.BusRoutesService;
 import com.arctouch.busroutes.api.FindRoutesByStopNameParams;
@@ -26,7 +30,7 @@ import retrofit.client.Response;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class RouteListFragment extends ListFragment {
+public class RouteListFragment extends ListFragment implements View.OnClickListener {
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -39,6 +43,13 @@ public class RouteListFragment extends ListFragment {
      * clicks.
      */
     private Callbacks mCallbacks = sDummyCallbacks;
+
+    /**
+     * The fragment UI object references.
+     */
+    private View mRootView;
+    private Button mSearchButton;
+    private EditText mSearchEdit;
 
     /**
      * The current activated item position. Only used on tablets.
@@ -85,7 +96,19 @@ public class RouteListFragment extends ListFragment {
                 android.R.id.text1,
                 DummyContent.ITEMS));*/
 
-        requestBusRoutes("%Lauro%");
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_route_list, container, false);
+
+        mSearchButton = ((Button) view.findViewById(R.id.searchButton));
+        mSearchEdit = ((EditText) view.findViewById(R.id.searchEdit));
+
+        mSearchButton.setOnClickListener(this);
+
+        return view;
     }
 
     @Override
@@ -117,6 +140,11 @@ public class RouteListFragment extends ListFragment {
 
         // Reset the active callbacks interface to the dummy implementation.
         mCallbacks = sDummyCallbacks;
+    }
+
+    // Implement the OnClickListener callback
+    public void onClick(View v) {
+        requestBusRoutes(String.format("%%%s%%", mSearchEdit.getText()));
     }
 
     @Override
@@ -180,11 +208,12 @@ public class RouteListFragment extends ListFragment {
 
                     @Override
                     public void failure(RetrofitError retrofitError) {
-                        Log.d("bus", "error finding bus routes by name");
+                        //Log.d("bus", "error finding bus routes by name");
                         // TODO: Toast error
                         //displayErrorMessage();
                     }
                 }
         );
     }
+
 }

@@ -5,7 +5,7 @@ import retrofit.http.Body;
 import retrofit.http.POST;
 
 /**
- * Retrofit annotated interface of the AppGlu BusRoutes api
+ * Retrofit annotated interface representing the AppGlu BusRoutes api
  */
 public interface BusRoutesServiceApi {
     @POST("/v1/queries/findRoutesByStopName/run")

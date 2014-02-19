@@ -24,10 +24,10 @@
     <fragment
         android:id="@+id/route_list"
         android:name="com.arctouch.busroutes.activities.RouteListFragment"
-        android:layout_width="0dp"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        tools:layout="@android:layout/list_content" />
+        tools:layout="@layout/fragment_route_list" />
 
     <FrameLayout
         android:id="@+id/route_detail_container"

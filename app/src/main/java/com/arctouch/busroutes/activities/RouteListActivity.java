@@ -36,7 +36,6 @@ public class RouteListActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_list);
 
-
         if (findViewById(R.id.route_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and

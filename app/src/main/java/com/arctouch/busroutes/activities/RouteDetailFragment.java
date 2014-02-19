@@ -71,7 +71,6 @@ public class RouteDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         mRootView = inflater.inflate(R.layout.fragment_route_detail, container, false);
         mTextView = ((TextView) mRootView.findViewById(R.id.route_detail));
 
