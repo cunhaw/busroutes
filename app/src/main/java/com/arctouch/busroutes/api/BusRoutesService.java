@@ -1,7 +1,12 @@
 package com.arctouch.busroutes.api;
 
+import com.squareup.okhttp.OkHttpClient;
+
+import java.util.concurrent.TimeUnit;
+
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 
 /**
  * This class instantiates and holds a single instance of {@link BusRoutesServiceApi} for the App.
@@ -23,13 +28,19 @@ public class BusRoutesService {
             }
         };
 
+        // Setup a 10 seconds timeout for requests
+        OkHttpClient ok = new OkHttpClient();
+        ok.setConnectTimeout(10, TimeUnit.SECONDS);
+
         // TODO: Move server address to configuration file
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("https://dashboard.appglu.com")
                 .setRequestInterceptor(requestInterceptor)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
+                //.setLogLevel(RestAdapter.LogLevel.FULL)
+                .setClient(new OkClient(ok))
                 .build();
 
+        // Build the Api service implementation
         service = restAdapter.create(BusRoutesServiceApi.class);
     }
 

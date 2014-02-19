@@ -62,8 +62,6 @@ public class RouteDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment arguments.
-            // TODO: Investigate the Loader approach to load content from a content provider
             mRouteIdParam = getArguments().getString(ARG_ITEM_ID);
         }
     }
@@ -79,6 +77,7 @@ public class RouteDetailFragment extends Fragment {
         mTextView.setText(loadingMessage);
 
         // Request the bus route information to the external service.
+        // TODO: Investigate the Loader approach to load content from a content provider
         if (mRouteIdParam != null) {
             int routeId = Integer.parseInt(mRouteIdParam);
             requestBusRouteDetails(routeId);
@@ -88,6 +87,8 @@ public class RouteDetailFragment extends Fragment {
     }
 
     private void requestBusRouteDetails(int routeId) {
+
+        // TODO: Decouple Activity from Retrofit library
 
         BusRoutesService.api().findDeparturesByRouteId(
                 new FindDeparturesByRouteIdParams(routeId),

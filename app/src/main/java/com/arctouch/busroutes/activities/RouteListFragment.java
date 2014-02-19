@@ -158,8 +158,12 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
         mAdapter.notifyDataSetChanged();
 
         // Request bus routes from the service api
-        if (mSearchEdit != null)
+        if ((mSearchEdit != null) && (mSearchButton != null)) {
+            mSearchButton.setEnabled(false);
+            mSearchEdit.setEnabled(false);
+
             requestBusRoutes(String.format("%%%s%%", mSearchEdit.getText()));
+        }
     }
 
     @Override
@@ -203,15 +207,21 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
     }
 
     private void requestBusRoutes(String streetNameLike) {
+
+        // TODO: Decouple Activity from Retrofit library
+
         BusRoutesService.api().findRoutesByStopName(
                 new FindRoutesByStopNameParams(streetNameLike),
                 new Callback<FindRoutesByStopNameResponse>() {
 
                     @Override
                     public void success(FindRoutesByStopNameResponse routesResponse, Response response) {
-
-                        Collections.copy(mBusRoutes, routesResponse.routes);
+                        mBusRoutes.clear();
+                        mBusRoutes.addAll(routesResponse.routes);
                         mAdapter.notifyDataSetChanged();
+
+                        mSearchButton.setEnabled(true);
+                        mSearchEdit.setEnabled(true);
 
                         if (routesResponse.routes.isEmpty()){
                             String noResultsFound = getResources().getString(R.string.no_results_for_street);
@@ -222,6 +232,9 @@ public class RouteListFragment extends ListFragment implements View.OnClickListe
 
                     @Override
                     public void failure(RetrofitError retrofitError) {
+                        mSearchButton.setEnabled(true);
+                        mSearchEdit.setEnabled(true);
+
                         String errorRetrievingBusRoutes = getResources().getString(R.string.error_retrieving_bus_routes_message);
                         Toast toast = Toast.makeText(getActivity(), errorRetrievingBusRoutes, Toast.LENGTH_SHORT);
                         toast.show();
