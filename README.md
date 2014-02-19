@@ -28,4 +28,4 @@ Under the hood, Retrofit depends on GSON, used to convert a JSON string to an eq
 There is an open issue (https://github.com/cunhaw/busroutes/issues/2) to check how this loading could be better decoupled from the Activity (probably using an Android Service or ContentProvider).
 
 - OkHttp is an HTTP client that’s efficient by default. Check http://square.github.io/okhttp/
-It was used in the project because Retrofit works better with it (allow better setup of HTTP parameters)
+It was used in the project because Retrofit works better with it (allow better setup of HTTP parameters).
