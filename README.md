@@ -15,7 +15,7 @@ Instructions
 It uses Gradle as the build system, and get external dependencies from Maven central.
 
 - Eclipse+ADT support is on the roadmap (https://github.com/cunhaw/busroutes/issues/1). Looks like there is a plugin for Eclipse, but it wasn't tested yet.
-Gradle plugin for Eclipse: http://www.gradle.org/docs/current/userguide/eclipse_plugin.html
+Gradle plugin for Eclipse can be found here: http://www.gradle.org/docs/current/userguide/eclipse_plugin.html (not tested)
 
 - It needs an Android API 19 compatible device to run. Target a wider range of devices is on the roadmap (https://github.com/cunhaw/busroutes/issues/6)
 
