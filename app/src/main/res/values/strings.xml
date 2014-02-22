@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Floripa Bus Routes</string>
+    <string name="title_route_detail">Route details</string>
+    <string name="no_results_for_street">No bus routes found for this street</string>
+    <string name="search_button_text">Search</string>
+    <string name="loading_bus_route_message">Loading bus route information...</string>
+    <string name="routes_detail_header">Departures for this route:</string>
+    <string name="error_retrieving_bus_routes_message">Error while retrieving bus routes from server</string>
+
+</resources>
